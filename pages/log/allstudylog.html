@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        let existinglogData;
+        let data = {
+          logs: [
+            {
+              tname: "秦宇强",
+              cname: "JavaEE",
+              year: "男",
+              term: "下学期", // 注意日期格式应为 YYYY-MM-DD
+              weeknum: 6,
+              studentnum: 50,
+            },
+            {
+              tname: "李华",
+              cname: "数据结构",
+              year: "男",
+              term: "上学期",
+              weeknum: 16,
+              studentnum: 45,
+            },
+            {
+              tname: "张敏",
+              cname: "操作系统",
+              year: "女",
+              term: "下学期",
+              weeknum: 14,
+              studentnum: 48,
+            },
+            {
+              tname: "王伟",
+              cname: "计算机网络",
+              year: "男",
+              term: "上学期",
+              weeknum: 12,
+              studentnum: 52,
+            },
+            {
+              tname: "赵丽",
+              cname: "数据库原理",
+              year: "女",
+              term: "下学期",
+              weeknum: 15,
+              studentnum: 50,
+            },
+            {
+              tname: "周杰",
+              cname: "软件工程",
+              year: "男",
+              term: "上学期",
+              weeknum: 18,
+              studentnum: 47,
+            },
+            {
+              tname: "吴梅",
+              cname: "人工智能",
+              year: "女",
+              term: "下学期",
+              weeknum: 10,
+              studentnum: 55,
+            },
+            {
+              tname: "陈东",
+              cname: "微机原理",
+              year: "男",
+              term: "上学期",
+              weeknum: 11,
+              studentnum: 43,
+            },
+            {
+              tname: "林峰",
+              cname: "编译原理",
+              year: "男",
+              term: "下学期",
+              weeknum: 13,
+              studentnum: 49,
+            },
+          ],
+        };
+        existinglogData = localStorage.getItem("logData");
+        if (existinglogData) {
+          // 如果已存在，将其解析为对象
+          existinglogData = JSON.parse(existinglogData);
+        } else {
+          // 如果不存在，创建一个默认用户
+          localStorage.setItem("logData", JSON.stringify(data));
+          existinglogData = data;
+        }
+
+        
+        function addlocalStorage() {
+          existinglogData = localStorage.getItem("logData");
+          console.log(existinglogData);
+          if (existinglogData) {
+            // 如果已存在，将其解析为对象
+            existinglogData = JSON.parse(existinglogData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existinglogData = {};
+            localStorage.setItem("logData", JSON.stringify(data));
+          }
+          data = existinglogData;
+          console.log(data);
+          $("#logTable").datagrid("loadData", data.logs);
+        }
+        addlocalStorage();
+
+        $.ajax({
+          url: "${pageContext.request.contextPath}/log/allstudylog", // 后端接口的URL
+          type: "GET", // 请求类型
+          success: function (response) {
+            // 请求成功时执行的回调函数
+            console.log("返回的数据:", response);
+          },
+          error: function (xhr, status, error) {
+            // 请求失败时执行的回调函数
+            console.log("请求失败:", error);
+          },
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <table
+      class="easyui-datagrid"
+      title="全部日志信息"
+      id="logTable"
+      style="width: 100%; height: 580px"
+      data-options="singleSelect:true,collapsible:true,method:'get'"
+    >
+      <thead>
+        <tr>
+          <th data-options="field:'tname',width:150">教师姓名</th>
+          <th data-options="field:'cname',width:200">课程名称</th>
+          <th data-options="field:'year',width:200">授课学年</th>
+          <th data-options="field:'term',width:200">授课学期</th>
+          <th data-options="field:'weeknum',width:200">授课周数</th>
+          <th data-options="field:'studentnum',width:200">选课学生人数</th>
+        </tr>
+      </thead>
+      <!-- <c:foreach var="1" items="${loglist}">
+        <tr>
+          <td>小明</td>
+          <td>动态网站设计</td>
+          <td>2019</td>
+          <td>上学期</td>
+          <td>10</td>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>小红</td>
+          <td>动态网站设计</td>
+          <td>2019</td>
+          <td>上学期</td>
+          <td>10</td>
+          <td>10</td>
+        </tr>
+      </c:foreach> -->
+    </table>
+  </body>
+</html>

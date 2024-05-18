@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新增期末总结</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+     window.onload = function () {
+        const sub = document.getElementById("sub");
+
+        sub.addEventListener("click", function (e) {
+          e.preventDefault();
+          const subject = document.getElementById("subject").value;
+          const grade = document.getElementById("grade").value;
+          const comments = document.getElementById("comments").value;
+         
+          // 检查本地存储中是否已存在 logData 数据
+          let existingfinalData = localStorage.getItem("finalData");
+          if (existingfinalData) {
+            // 如果已存在，将其解析为对象
+            existingfinalData = JSON.parse(existingfinalData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existingfinalData = { summaries: [] };
+          }
+          const newfinal = {
+            subject: subject,
+            grade: grade,
+            comments: comments,
+          };
+          // 将新的作业对象添加到现有的作业数据中
+          existingfinalData.summaries.push(newfinal);
+
+          // 将合并后的数据以 JSON 格式存储在本地存储中
+          localStorage.setItem(
+            "finalData",
+            JSON.stringify(existingfinalData)
+          );
+          window.location.href = "allfinalsummary.html";
+          // $.ajax({
+          //   url: "${pageContext.request.contextPath}/homework/add", // 后端接口的URL
+          //   type: "POST", // 请求类型
+          //   data: {
+          //     workname: workname,
+          //     startdate: startdate,
+          //     enddate: enddate,
+          //     workdesc: workdesc,
+          //     courseid: courseid,
+          //   },
+          //   success: function (response) {
+          //     // 请求成功时执行的回调函数
+          //     console.log("返回的数据:", response);
+          //   },
+          //   error: function (xhr, status, error) {
+          //     // 请求失败时执行的回调函数
+          //     console.log("请求失败:", error);
+          //   },
+          // });
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="easyui-panel" title="新增期末总结" style="width: 500px">
+      <div style="padding: 10px 60px 20px 60px">
+        <form id="summaryForm" method="post" class="easyui-form">
+          <div>
+            <label for="subject">科目：</label>
+            <input type="text" id="subject" name="subject" required />
+          </div>
+          <div>
+            <label for="grade">成绩：</label>
+            <input type="text" id="grade" name="grade" required />
+          </div>
+          <div>
+            <label for="comments" >评语：</label>
+            <textarea
+              id="comments"
+              name="comments"
+              rows="4"
+              cols="50"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <button type="submit" id="sub">提交</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>登录</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../jquery-easyui-1.10.19/themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../jquery-easyui-1.10.19/demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <style type="text/css">
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        min-height: 100vh;
+      }
+      .top {
+        width: auto;
+        background: #ffffff;
+      }
+      .top_img {
+        float: left;
+        background: #ffffff;
+        height: 102px;
+      }
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+      .top_title {
+        width: 100%;
+        height: auto;
+        background: #2894ff;
+      }
+      .title {
+        font-size: 90px;
+        color: #ffffff;
+        font-family: "黑体";
+      }
+      .center_img {
+        float: left;
+      }
+      .img {
+        width: 300px;
+        height: 400px;
+        margin-top: 40px;
+        margin-left: 100px;
+        margin-right: 80px;
+      }
+      .center_button {
+        float: left;
+        margin-top: 200px;
+      }
+      .button1 {
+        margin-right: 30px;
+      }
+      .bottom {
+        text-align: center;
+        background: #2894ff;
+      }
+      .bottom_text {
+        font-size: 13px;
+        color: #ffffff;
+      }
+      .center_form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50%;
+      }
+    </style>
+    <script defer>
+      window.onload = function () {
+        let existingUseraccount;
+        const user = {
+          id: "2113212024",
+          password: "954749",
+        };
+        
+        //检查本地存储中是否存在用户信息
+        existingUseraccount = localStorage.getItem("Useraccount");
+        if (existingUseraccount) {
+          // 如果已存在，将其解析为对象
+          existingUseraccount = JSON.parse(existingUseraccount);
+        } else {
+          // 如果不存在，创建一个默认用户
+          localStorage.setItem("Useraccount", JSON.stringify(user));
+          existingUseraccount = user;
+        }
+        
+        const login = document.getElementById("login");
+        login.addEventListener("click", function (e) {
+          e.preventDefault();
+          const id = document.getElementById("id").value;
+          const password = document.getElementById("password").value;
+          
+          // 从localStorage中获取并解析Useraccount
+          existingUseraccount = localStorage.getItem("Useraccount");
+          if (existingUseraccount) {
+            existingUseraccount = JSON.parse(existingUseraccount);
+          } else {
+            alert("用户账户不存在");
+            return;
+          }
+          
+          if (id === existingUseraccount.id && password === existingUseraccount.password) {
+            window.location.href = "teacher.html";
+          } else {
+            alert("账号或密码错误");
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="easyui-layout" style="width: auto; height: 97%">
+      <div class="top" data-options="region:'north'" style="height: 105px">
+        <div class="top_img">
+          <img class="logo" src="../image/logo.jpg" />
+        </div>
+        <div class="top_title">
+          <span class="title">教学日志管理系统--登录界面</span>
+        </div>
+      </div>
+      <div
+        data-options="region:'center', title:'欢迎来到教学日志管理系统', iconCls:'icon-edit'"
+      >
+        <div class="center_img">
+          <img class="img" src="../image/book.jpg" />
+        </div>
+        <div class="center_form">
+          <div class="easyui-panel" title="教师职工登录" style="width: 350px">
+            <form id="ff">
+              <table cellpadding="20">
+                <tr>
+                  <td>账号:</td>
+                  <td>
+                    <input
+                      class="easyui-textbox"
+                      type="text"
+                      name="id"
+                      id="id"
+                      data-options="prompt:'请输入用户名,即工号'"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>密码:</td>
+                  <td>
+                    <input
+                      class="easyui-textbox"
+                      type="password"
+                      name="pwd"
+                      id="password"
+                      data-options="prompt:'请输入密码'"
+                    />
+                  </td>
+                </tr>
+              </table>
+              <div style="text-align: center; padding: 15px">
+                <input type="submit" value="登录" id="login" />
+                <a href="#"><button type="button">注册</button></a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <span class="bottom_text">Copy©版权所有 2024/05/10</span>
+    </div>
+  </body>
+</html>

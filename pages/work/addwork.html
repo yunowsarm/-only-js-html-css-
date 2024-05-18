@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Homework</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+      window.onload = function () {
+        const sub = document.getElementById("sub");
+
+        sub.addEventListener("click", function (e) {
+          e.preventDefault();
+          const workname = document.getElementById("workname").value;
+          const startdate = document.getElementById("startdate").value;
+          const enddate = document.getElementById("enddate").value;
+          const workdesc = document.getElementById("workdesc").value;
+          const courseid = $("select[name='courseid']").val();
+          // 检查本地存储中是否已存在 homeworkData 数据
+          let existingHomeworkData = localStorage.getItem("homeworkData");
+          if (existingHomeworkData) {
+            // 如果已存在，将其解析为对象
+            existingHomeworkData = JSON.parse(existingHomeworkData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existingHomeworkData = { works: [] };
+          }
+          const newWork = {
+            workname: workname,
+            startdate: startdate,
+            enddate: enddate,
+            workdesc: workdesc,
+            courseid: courseid,
+          };
+          // 将新的作业对象添加到现有的作业数据中
+          existingHomeworkData.works.push(newWork);
+
+          // 将合并后的数据以 JSON 格式存储在本地存储中
+          localStorage.setItem(
+            "homeworkData",
+            JSON.stringify(existingHomeworkData)
+          );
+          window.location.href = "allwork.html";
+          // $.ajax({
+          //   url: "${pageContext.request.contextPath}/homework/add", // 后端接口的URL
+          //   type: "POST", // 请求类型
+          //   data: {
+          //     workname: workname,
+          //     startdate: startdate,
+          //     enddate: enddate,
+          //     workdesc: workdesc,
+          //     courseid: courseid,
+          //   },
+          //   success: function (response) {
+          //     // 请求成功时执行的回调函数
+          //     console.log("返回的数据:", response);
+          //   },
+          //   error: function (xhr, status, error) {
+          //     // 请求失败时执行的回调函数
+          //     console.log("请求失败:", error);
+          //   },
+          // });
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="easyui-panel" title="添加作业" style="width: 500px">
+      <div style="padding: 10px 60px 20px 60px">
+        <form name="ff" id="ff" method="post" action="">
+          <table cellpadding="5">
+            <tr>
+              <td>作业名称：</td>
+              <td>
+                <input
+                  class="easyui-textbox"
+                  type="text"
+                  name="workname"
+                  id="workname"
+                  data-options="prompt:'请输入作业名称'"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>发布日期：</td>
+              <td>
+                <input class="easyui-datebox" name="startdate" id="startdate" />
+              </td>
+            </tr>
+            <tr>
+              <td>截止日期：</td>
+              <td>
+                <input class="easyui-datebox" name="enddate" id="enddate" />
+              </td>
+            </tr>
+            <tr>
+              <td>作业描述：</td>
+              <td>
+                <input
+                  class="easyui-textbox"
+                  type="text"
+                  name="workdesc"
+                  id="workdesc"
+                  data-options="prompt:'请输入作业描述'"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>课程：</td>
+              <td>
+                <select name="courseid" style="width: 150px">
+                  <option value="1">动态网站设计</option>
+                  <option value="2">JAVA语言设计</option>
+                  <option value="3">C语言设计</option>
+                  <!-- 添加其他课程选项 -->
+                </select>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: center; padding: 5px">
+            <input type="submit" id="sub" value="保存" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

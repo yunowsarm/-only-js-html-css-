@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        let existingUserData;
+        let data = {
+          users: [
+            {
+              name: "史子龙",
+              age: 21,
+              sex: "男",
+              birth: "2003-03-16", // 注意日期格式应为 YYYY-MM-DD
+              phone: 1234567890,
+              department: "计算机工程学院",
+              email: "123@123.com",
+            },
+            {
+              name: "好厚的雪",
+              age: 20,
+              sex: "女",
+              birth: "2003-05-18", // 注意日期格式应为 YYYY-MM-DD
+              phone: 1234567890,
+              department: "信息工程学院",
+              email: "789@123.com",
+            },
+            {
+              name: "Yuki",
+              age: 20,
+              sex: "男",
+              birth: "2003-02-19", // 注意日期格式应为 YYYY-MM-DD
+              phone: 20030316,
+              department: "外国语学院",
+              email: "456@123.com",
+            },
+          ],
+        };
+        existingUserData = localStorage.getItem("UserData");
+        if (existingUserData) {
+          // 如果已存在，将其解析为对象
+          existingUserData = JSON.parse(existingUserData);
+        } else {
+          // 如果不存在，创建一个默认用户
+          localStorage.setItem("UserData", JSON.stringify(data));
+          existingUserData = data;
+        }
+
+        function addlocalStorage() {
+          existingUserData = localStorage.getItem("UserData");
+          console.log(existingUserData);
+          if (existingUserData) {
+            // 如果已存在，将其解析为对象
+            existingUserData = JSON.parse(existingUserData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existingUserData = {};
+            localStorage.setItem("UserData", JSON.stringify(data));
+          }
+          data = existingUserData;
+          console.log(data);
+          $("#userTable").datagrid("loadData", data.users);
+        }
+        addlocalStorage();
+      });
+      // $.ajax({
+      //   url: "${pageContext.request.contextPath}/user/userInfo", // 后端接口的URL
+      //   type: "GET", // 请求类型
+      //   success: function (response) {
+      //     // 请求成功时执行的回调函数
+      //     console.log("返回的数据:", response);
+      //   },
+      //   error: function (xhr, status, error) {
+      //     // 请求失败时执行的回调函数
+      //     console.log("请求失败:", error);
+      //   },
+      // });
+    </script>
+  </head>
+  <body>
+    <table
+      class="easyui-datagrid"
+      title="个人信息"
+      id="userTable"
+      style="width: 100%; height: 580px"
+      data-options="singleSelect:true,collapsible:true,method:'get'"
+    >
+      <thead>
+        <tr>
+          <th data-options="field:'name',width:150">姓名</th>
+          <th data-options="field:'email',width:150">邮箱</th>
+          <th data-options="field:'sex',width:150">性别</th>
+          <th data-options="field:'birth',width:200">生日</th>
+          <th data-options="field:'phone',width:200">联系电话</th>
+          <th data-options="field:'department',width:200">所属院系</th>
+        </tr>
+      </thead>
+      <!-- <c:forEach var="u" items="${user}">
+        <tr>
+          <td>史子龙</td>
+          <td>21</td>
+          <td>男</td>
+          <td>2003 03 16</td>
+          <td>1234567890</td>
+          <td>计算机工程学院</td>
+        </tr>
+      </c:forEach> -->
+    </table>
+  </body>
+</html>

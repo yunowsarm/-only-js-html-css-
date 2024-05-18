@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>期末总结</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        let existingfinalData;
+        let data = {
+          summaries: [
+            {
+              subject: "JavaEE",
+              grade: "A",
+              comments: "在 JavaEE 概念上表现出很强的理解能力。",
+            },
+            {
+              subject: "Python",
+              grade: "B+",
+              comments: "在整个学期中有所进步，特别是在解决问题的能力方面。",
+            },
+            {
+              subject: "Java",
+              grade: "A-",
+              comments: "总体表现良好，在面向对象编程原理上有很好的掌握。",
+            },
+          ],
+        };
+        existingfinalData = localStorage.getItem("finalData");
+        if (existingfinalData) {
+          // 如果已存在，将其解析为对象
+          existingfinalData = JSON.parse(existingfinalData);
+        } else {
+          // 如果不存在，创建一个默认用户
+          localStorage.setItem("finalData", JSON.stringify(data));
+          existingfinalData = data;
+        }
+        function addlocalStorage() {
+          existingfinalData = localStorage.getItem("finalData");
+          if (existingfinalData) {
+            // 如果已存在，将其解析为对象
+            existingfinalData = JSON.parse(existingfinalData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existingfinalData = {};
+            localStorage.setItem("finalData", JSON.stringify(data));
+          }
+          data = existingfinalData;
+          console.log(data);
+          $("#finalTable").datagrid("loadData", data.summaries);
+        }
+        addlocalStorage();
+      });
+    </script>
+  </head>
+  <body>
+    <table
+      class="easyui-datagrid"
+      title="全部期末总结"
+      id="finalTable"
+      style="width: 100%; height: 580px"
+      data-options="singleSelect:true,collapsible:true,method:'get'"
+    >
+      <thead>
+        <tr>
+          <th data-options="field: 'subject', title: '科目', width: 100"></th>
+          <th data-options="field: 'grade', title: '成绩', width: 100"></th>
+          <th data-options="field: 'comments', title: '评语', width: 400"></th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+</html>

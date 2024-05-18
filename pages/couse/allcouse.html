@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+
+    <script>
+      $(document).ready(function () {
+        let existingcouseData;
+        let data = {
+          courses: [
+            {
+              name: "JavaEE",
+              type: "专业必修课",
+            },
+            {
+              name: "Web开发",
+              type: "专业选修课",
+            },
+            {
+              name: "数据库系统",
+              type: "专业必修课",
+            },
+            {
+              name: "操作系统",
+              type: "专业必修课",
+            },
+            {
+              name: "数据结构",
+              type: "专业必修课",
+            },
+            {
+              name: "计算机网络",
+              type: "专业必修课",
+            },
+            {
+              name: "软件工程",
+              type: "专业必修课",
+            },
+            {
+              name: "编译原理",
+              type: "专业必修课",
+            },
+            {
+              name: "人工智能",
+              type: "专业选修课",
+            },
+            {
+              name: "机器学习",
+              type: "专业选修课",
+            },
+          ],
+        };
+        existingcouseData = localStorage.getItem("couseData");
+        if (existingcouseData) {
+          // 如果已存在，将其解析为对象
+          existingcouseData = JSON.parse(existingcouseData);
+        } else {
+          // 如果不存在，创建一个默认用户
+          localStorage.setItem("couseData", JSON.stringify(data));
+          existingcouseData = data;
+        }
+        function addlocalStorage() {
+          existingcouseData = localStorage.getItem("couseData");
+          if (existingcouseData) {
+            // 如果已存在，将其解析为对象
+            existingcouseData = JSON.parse(existingcouseData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existingcouseData = {};
+            localStorage.setItem("couseData", JSON.stringify(data));
+          }
+          data = existingcouseData;
+          console.log(data);
+          $("#couseTable").datagrid("loadData", data.courses);
+        }
+        addlocalStorage();
+      });
+      $.ajax({
+        url: "${pageContext.request.contextPath}/couse/couseInfo", // 后端接口的URL
+        type: "GET", // 请求类型
+        success: function (response) {
+          // 请求成功时执行的回调函数
+          console.log("返回的数据:", response);
+        },
+        error: function (xhr, status, error) {
+          // 请求失败时执行的回调函数
+          console.log("请求失败:", error);
+        },
+      });
+    </script>
+  </head>
+  <body>
+    <table
+      class="easyui-datagrid"
+      title="课程信息"
+      id="couseTable"
+      style="width: 100%; height: 580px"
+      data-options="singleSelect:true,collapsible:true,method:'get'"
+    >
+      <thead>
+        <tr>
+          <th data-options="field:'name',width:500">课程名称</th>
+          <th data-options="field:'type',width:500">课程类型</th>
+        </tr>
+      </thead>
+      <!-- <c:forEach var="c" items="${couse}">
+        <tr></tr>
+      </c:forEach> -->
+    </table>
+  </body>
+</html>

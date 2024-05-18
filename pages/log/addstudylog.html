@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19/themes/default/easyui.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//themes/icon.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../../jquery-easyui-1.10.19//demo/demo.css"
+    />
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../../jquery-easyui-1.10.19/jquery.easyui.min.js"
+    ></script>
+    <script>
+      window.onload = function () {
+        const sub = document.getElementById("sub");
+
+        sub.addEventListener("click", function (e) {
+          e.preventDefault();
+          const weeknum = document.getElementById("weeknum").value;
+          const studentnum = document.getElementById("studentnum").value;
+          const teacher=document.getElementById('teacher').value
+          const cid = $("select[name='cid']").val();
+          const year = $("select[name='year']").val();
+          const term = $("select[name='term']").val();
+          // 检查本地存储中是否已存在 logData 数据
+          let existinglogData = localStorage.getItem("logData");
+          if (existinglogData) {
+            // 如果已存在，将其解析为对象
+            existinglogData = JSON.parse(existinglogData);
+          } else {
+            // 如果不存在，创建一个空对象
+            existinglogData = { logs: [] };
+          }
+          const newlog = {
+            weeknum: weeknum,
+            studentnum: studentnum,
+            cname: cid,
+            year: year,
+            term: term,
+            tname:teacher
+          };
+          // 将新的作业对象添加到现有的作业数据中
+          existinglogData.logs.push(newlog);
+
+          // 将合并后的数据以 JSON 格式存储在本地存储中
+          localStorage.setItem(
+            "logData",
+            JSON.stringify(existinglogData)
+          );
+          window.location.href = "allstudylog.html";
+          // $.ajax({
+          //   url: "${pageContext.request.contextPath}/homework/add", // 后端接口的URL
+          //   type: "POST", // 请求类型
+          //   data: {
+          //     workname: workname,
+          //     startdate: startdate,
+          //     enddate: enddate,
+          //     workdesc: workdesc,
+          //     courseid: courseid,
+          //   },
+          //   success: function (response) {
+          //     // 请求成功时执行的回调函数
+          //     console.log("返回的数据:", response);
+          //   },
+          //   error: function (xhr, status, error) {
+          //     // 请求失败时执行的回调函数
+          //     console.log("请求失败:", error);
+          //   },
+          // });
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div class="easyui-panel" title="新建教学日志表" style="width: 500px">
+      <div style="padding: 10px 60px 20px 60px">
+        <form name="ff" id="ff" method="post" action="">
+          <table cellpadding="5">
+            <tr>
+              <td>课程名称：</td>
+              <td>
+                <select name="cid" width="150px">
+                  <option value="动态网站设计">动态网站设计</option>
+                  <option value="JAVA语言设计">JAVA语言设计</option>
+                  <option value="C语言设计">C语言设计</option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="uid"
+                  id="uid"
+                  value="${uid}"
+                  style="display: none"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>学年：</td>
+              <td>
+                <select name="year" id="" width="100px">
+                  <option value="2020">2020&nbsp;&nbsp;</option>
+                  <option value="2021">2021&nbsp;&nbsp;</option>
+                  <option value="2022">2022&nbsp;&nbsp;</option>
+                  <option value="2023">2023&nbsp;&nbsp;</option>
+                  <option value="2024">2024&nbsp;&nbsp;</option>
+                  <option value="2025">2025&nbsp;&nbsp;</option>
+                  <option value="2026">2026&nbsp;&nbsp;</option>
+                  <option value="2027">2027&nbsp;&nbsp;</option>
+                  <option value="2028">2028&nbsp;&nbsp;</option>
+                  <option value="2029">2029&nbsp;&nbsp;</option>
+                  <option value="2030">2030&nbsp;&nbsp;</option>
+                  <option value="2031">2031&nbsp;&nbsp;</option>
+                  <option value="2032">2032&nbsp;&nbsp;</option>
+                  <option value="2033">2033&nbsp;&nbsp;</option>
+                  <option value="2034">2034&nbsp;&nbsp;</option>
+                  <option value="2035">2035&nbsp;&nbsp;</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>学期：</td>
+              <td>
+                <select  name="term" style="width: 100px">
+                  <option value="上学期">上学期&nbsp;&nbsp;</option>
+                  <option value="下学期">下学期&nbsp;&nbsp;</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>授课老师</td>
+              <td>
+                <input class="easyui-textbox" type="text" name="teacher" id="teacher"/>
+              </td>
+            </tr>
+            <tr>
+              <td>授课周数：</td>
+              <td>
+                <input class="easyui-textbox" type="text" name="weeknum" id="weeknum"/>
+              </td>
+            </tr>
+            <tr>
+              <td>选课学生人数：</td>
+              <td>
+                <input class="easyui-textbox" type="text" name="studentnum" id="studentnum" />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value="0"
+                  name="audit"
+                  style="display: none"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="summary"
+                  value="0"
+                  style="display: none"
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="content"
+                  value="0"
+                  style="display: none"
+                />
+              </td>
+              <td>
+                <input type="text" name="job" value="0" style="display: none" />
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: center; padding: 5px">
+            <input type="submit" id="sub" value="保存" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
